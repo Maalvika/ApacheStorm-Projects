@@ -22,7 +22,7 @@ public class WCMain {
 	private static final String OUTPUT_BOLT_ID = "output-bolt";
 	private static final String TOPOLOGY_NAME = "word-count-topology";
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws AlreadyAliveException, InvalidTopologyException, AuthorizationException {
 		SentenceSpout ss = new SentenceSpout();
 		WordBolt wb = new WordBolt();
 		CountBolt cb = new CountBolt();
@@ -59,18 +59,7 @@ public class WCMain {
 			cluster.shutdown();
 		} else if (args[0].equals("remote")) {
 			config.setNumWorkers(3);
-			try {
-				StormSubmitter.submitTopologyWithProgressBar(args[0], config, builder.createTopology());
-			} catch (AlreadyAliveException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidTopologyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (AuthorizationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			StormSubmitter.submitTopologyWithProgressBar(args[0], config, builder.createTopology());
 		}
 	}
 
