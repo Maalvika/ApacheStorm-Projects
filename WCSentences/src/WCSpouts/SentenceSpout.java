@@ -35,6 +35,7 @@ public class SentenceSpout extends BaseRichSpout{
 		// TODO Auto-generated method stub
 		collector.emit(new Values(sentences[counter]));
 		counter++;
+		System.out.println("------------- counter ---------"+counter);
 		if(counter>=sentences.length) {
 			counter = 0;
 		}

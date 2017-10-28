@@ -41,7 +41,7 @@ public class OutputBolt extends BaseRichBolt{
 	}
 	
 	public void cleanup() {
-		System.out.println("--- FINAL COUNTS ---");
+		System.out.println("------------------------ FINAL COUNTS ---------------------");
 		List<String> keys = new ArrayList<String>();
 		keys.addAll(this.counts.keySet());
 		Collections.sort(keys);
