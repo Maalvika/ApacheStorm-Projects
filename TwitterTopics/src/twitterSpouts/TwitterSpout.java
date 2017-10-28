@@ -3,6 +3,7 @@ package twitterSpouts;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.storm.Config;
 import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -95,6 +96,13 @@ public class TwitterSpout extends BaseRichSpout {
 		// TODO Auto-generated method stub
 		declarer.declare(new Fields("tweet"));
 
+	}
+	
+	@Override
+	public Map<String, Object> getComponentConfiguration() {
+		Config config = new Config();
+		config.setMaxTaskParallelism(1);
+		return config;
 	}
 
 }

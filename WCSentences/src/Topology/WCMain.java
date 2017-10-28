@@ -2,6 +2,10 @@ package Topology;
 
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.Utils;
@@ -34,13 +38,40 @@ public class WCMain {
 		
 		builder.setBolt(OUTPUT_BOLT_ID, ob).globalGrouping(COUNT_BOLT_ID);
 		
+		
 		Config config = new Config();
-		LocalCluster cluster = new LocalCluster();
-		cluster.submitTopology(TOPOLOGY_NAME, config, builder.
+		config.setDebug(false);
+		config.put(config.TOPOLOGY_MAX_SPOUT_PENDING, 1);
+		if(args == null || args.length == 0) {
+			LocalCluster cluster = new LocalCluster();
+			cluster.submitTopology(TOPOLOGY_NAME, config, builder.
 				createTopology());
-		Utils.sleep(10);
-		cluster.killTopology(TOPOLOGY_NAME);
-		cluster.shutdown();
+			try {
+				
+				System.out.println("----------------ENTERRING INTO SLEEP MODE---------------");
+				Thread.sleep(1000000);
+			} catch(Exception e){
+				System.out.println("------------- exitting sleep mode-----------");
+				e.printStackTrace();
+			}
+		
+			cluster.killTopology(TOPOLOGY_NAME);
+			cluster.shutdown();
+		} else if (args[0].equals("remote")) {
+			config.setNumWorkers(3);
+			try {
+				StormSubmitter.submitTopologyWithProgressBar(args[0], config, builder.createTopology());
+			} catch (AlreadyAliveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidTopologyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AuthorizationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	
