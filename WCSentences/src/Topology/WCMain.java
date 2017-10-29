@@ -49,7 +49,7 @@ public class WCMain {
 			try {
 				
 				System.out.println("----------------ENTERRING INTO SLEEP MODE---------------");
-				Thread.sleep(1000000);
+				Utils.sleep(10000);
 			} catch(Exception e){
 				System.out.println("------------- exitting sleep mode-----------");
 				e.printStackTrace();
@@ -59,7 +59,7 @@ public class WCMain {
 			cluster.shutdown();
 		} else if (args[0].equals("remote")) {
 			config.setNumWorkers(3);
-			StormSubmitter.submitTopologyWithProgressBar(args[0], config, builder.createTopology());
+			StormSubmitter.submitTopologyWithProgressBar(TOPOLOGY_NAME, config, builder.createTopology());
 		}
 	}
 

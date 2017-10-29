@@ -16,7 +16,7 @@ public class SentenceSpout extends BaseRichSpout{
 	
 	private SpoutOutputCollector collector;
 	//Each sentence is emitted as a single field of tuple
-	private String[] sentences = {
+	private static String[] sentences = {
 			"my dog has fleas",
 			"i like cold beverages",
 			"the dog ate my homework",
@@ -24,7 +24,7 @@ public class SentenceSpout extends BaseRichSpout{
 			"i don't think i like fleas"
 	};
 	
-	private int counter = 0;
+	private static int counter = 0;
 	
 	/**
 	 * The nextTuple() method represents the core of any spout implementation. 
@@ -39,8 +39,7 @@ public class SentenceSpout extends BaseRichSpout{
 		if(counter>=sentences.length) {
 			counter = 0;
 		}
-		Utils.sleep(1);
-		
+		Utils.sleep(100);	
 		
 	}
 
@@ -50,7 +49,7 @@ public class SentenceSpout extends BaseRichSpout{
 	@Override
 	public void open(Map arg0, TopologyContext arg1, SpoutOutputCollector arg2) {
 		// TODO Auto-generated method stub
-		this.collector = collector;
+		this.collector = arg2;
 		
 	}
 
