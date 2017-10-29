@@ -1,8 +1,8 @@
 package twitterBolts;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -11,35 +11,38 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 
-
-public class WordBolt extends BaseRichBolt{
+public class HashtagCount extends BaseRichBolt{
 	
-	private static OutputCollector collector;
+	private OutputCollector collector;
+	private HashMap<String, Long> counts = null;
 
 	@Override
-	public void execute(Tuple tuple) {
+	public void execute(Tuple arg0) {
 		// TODO Auto-generated method stub
-		String s = tuple.getStringByField("sentence");
-		String[] words = s.split(" ");
-		for(String w: words) {
-			collector.emit(new Values(w));
+		String w = arg0.getStringByField("hashtag");
+		if(counts.containsKey(w)) {
+			long temp = counts.get(w);
+			temp++;
+			counts.put(w, temp);
+		} else {
+			counts.put(w, 1L);
 		}
-		
+		collector.emit(new Values(w, counts.get(w)));
 	}
 
 	@Override
 	public void prepare(Map arg0, TopologyContext arg1, OutputCollector arg2) {
 		// TODO Auto-generated method stub
-		this.collector = arg2;
+		collector  = arg2;
+		counts = new HashMap<>();
+		
 	}
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer arg0) {
 		// TODO Auto-generated method stub
-		arg0.declare(new Fields("word"));
+		arg0.declare(new Fields("word","count"));
 		
 	}
-
-
 
 }
