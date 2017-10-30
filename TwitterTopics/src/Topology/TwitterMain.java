@@ -3,16 +3,16 @@ package Topology;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.Utils;
 
-import twitterBolts.CountBolt;
 import twitterBolts.HashtagCount;
 import twitterBolts.HashtagReader;
 import twitterBolts.OutputBolt;
-import twitterBolts.WordBolt;
-import twitterSpouts.SentenceSpout;
 import twitterSpouts.TwitterSpout;
 
 public class TwitterMain {
@@ -22,7 +22,7 @@ public class TwitterMain {
 	private static final String OUTPUT_BOLT_ID = "output-bolt";
 	private static final String TOPOLOGY_NAME = "twitter-count-topology";
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws AlreadyAliveException, InvalidTopologyException, AuthorizationException {
 		TwitterSpout ss = new TwitterSpout();
 		HashtagReader wb = new HashtagReader();
 		HashtagCount cb = new HashtagCount();
@@ -61,8 +61,5 @@ public class TwitterMain {
 			StormSubmitter.submitTopologyWithProgressBar(TOPOLOGY_NAME, config, builder.createTopology());
 		}
 	}
-	}
-
-	
 
 }
