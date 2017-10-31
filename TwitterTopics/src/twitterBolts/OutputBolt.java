@@ -20,7 +20,7 @@ public class OutputBolt extends BaseRichBolt{
 	@Override
 	public void execute(Tuple arg0) {
 		// TODO Auto-generated method stub
-		String w = arg0.getStringByField("word");
+		String w = arg0.getStringByField("hashtag");
 		Long c = arg0.getLongByField("count");
 		counts.put(w, c);
 		
