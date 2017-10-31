@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -15,7 +16,7 @@ import org.apache.storm.tuple.Tuple;
 public class OutputBolt extends BaseRichBolt{
 	
 	private OutputCollector collector;
-	private HashMap<String, Long> counts = null;
+	private Map<String, Long> counts = null;
 
 	@Override
 	public void execute(Tuple arg0) {
@@ -30,7 +31,7 @@ public class OutputBolt extends BaseRichBolt{
 	public void prepare(Map arg0, TopologyContext arg1, OutputCollector arg2) {
 		// TODO Auto-generated method stub
 		collector = arg2;
-		counts = new HashMap<>();
+		counts = new TreeMap<>(Collections.reverseOrder());
 		
 	}
 
