@@ -53,7 +53,7 @@ public class TwitterSpout extends BaseRichSpout {
 	public void open(Map arg0, TopologyContext arg1, SpoutOutputCollector arg2) {
 		// TODO Auto-generated method stub
 		this.collector = arg2;
-
+		queue = new LinkedBlockingQueue<>();
 		StatusListener listener = new StatusListener() {
 			@Override
 			public void onStatus(Status status) {
@@ -81,13 +81,20 @@ public class TwitterSpout extends BaseRichSpout {
 			}
 		};
 
-		twitterStream = new TwitterStreamFactory(new ConfigurationBuilder().setJSONStoreEnabled(true).build())
-				.getInstance();
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true);
+        cb.setJSONStoreEnabled(true);
+        
+        cb.setOAuthConsumerKey(consumerKey);
+        cb.setOAuthConsumerSecret(consumerSecret);
+        cb.setOAuthAccessToken(accessToken);
+        cb.setOAuthAccessTokenSecret(accessTokenSecret);
+        
+		twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
+		
 		twitterStream.addListener(listener);
-		twitterStream.setOAuthConsumer(consumerKey, consumerSecret);
-		AccessToken token = new AccessToken(accessToken, accessTokenSecret);
-		twitterStream.setOAuthAccessToken(token);
 		twitterStream.sample();
+        System.out.println("Connect Successful");
 
 	}
 

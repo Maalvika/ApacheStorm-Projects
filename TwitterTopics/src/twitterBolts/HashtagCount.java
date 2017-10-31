@@ -41,7 +41,7 @@ public class HashtagCount extends BaseRichBolt{
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer arg0) {
 		// TODO Auto-generated method stub
-		arg0.declare(new Fields("word","count"));
+		arg0.declare(new Fields("hashtag","count"));
 		
 	}
 

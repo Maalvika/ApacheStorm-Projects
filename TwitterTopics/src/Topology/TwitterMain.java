@@ -34,7 +34,7 @@ public class TwitterMain {
 		builder.setBolt(HASHTAG_BOLT_ID, wb).shuffleGrouping(TWITTER_SPOUT_ID);
 		//Here, we use the fieldsGrouping() method of the BoltDeclarer class to ensure that 
 		//all tuples containing the same "word" value get routed to the same WordCountBolt instance.
-		builder.setBolt(COUNT_BOLT_ID, cb).fieldsGrouping(HASHTAG_BOLT_ID, new Fields("word"));
+		builder.setBolt(COUNT_BOLT_ID, cb).fieldsGrouping(HASHTAG_BOLT_ID, new Fields("hashtag"));
 		
 		builder.setBolt(OUTPUT_BOLT_ID, ob).globalGrouping(COUNT_BOLT_ID);
 		
