@@ -19,5 +19,7 @@
 	<classpathentry kind="lib" path="C:/Users/maalv/Downloads/storm-core-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/maalv/Downloads/twitter4j-core-4.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/maalv/Downloads/twitter4j-stream-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/maalv/Downloads/language-detector-0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/maalv/Downloads/stanford-corenlp-3.6.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
